@@ -29,15 +29,19 @@ def read_integer(prompt):
 
 
 def runners_data():
-    with open("Runners.txt") as input:
-        lines = input.readlines()
+    with open("Runners.txt") as input_file:
+        lines = input_file.readlines()
     runners_name = []
     runners_id = []
     for line in lines:
         split_line = line.split(",")
         runners_name.append(split_line[0])
-        id = split_line[1].strip("\n")
-        runners_id.append(id)
+        if len(split_line) > 1:
+            runner_id = split_line[1].strip("\n")
+            runners_id.append(runner_id)
+        else:
+            # Handle the case where there is no second element in the split_line
+            runners_id.append(None)  # You can choose a suitable default value or handle it differently
     return runners_name, runners_id
 
 
@@ -71,7 +75,7 @@ def winner_of_race(id, time_taken):
 def display_races(id, time_taken, venue, fastest_runner):
     MINUTE = 50
     print(f"Results for {venue}")
-    print(f"="*37)
+    print(f"=" * 37)
     minutes = []
     seconds = []
     for i in range(len(time_taken)):
@@ -162,7 +166,7 @@ def relevant_runner_info(runners_name, runners_id):
         print(f"{i + 1}: {runners_name[i]}")
     user_input = read_integer_between_numbers("Which Runner > ", 1, len(runners_name))
     runner = runners_name[user_input - 1]
-    id = runners_id[user_input -1]
+    id = runners_id[user_input - 1]
     return runner, id
 
 
@@ -188,7 +192,7 @@ def sorting_where_runner_came_in_race(location, time):
 
 def displaying_race_times_one_competitor(races_location, runner, id):
     print(f"{runner} ({id})")
-    print(f"-"*35)
+    print(f"-" * 35)
     for i in range(len(races_location)):
         time_taken = reading_race_results_of_relevant_runner(races_location[i], id)
         if time_taken is not None:
