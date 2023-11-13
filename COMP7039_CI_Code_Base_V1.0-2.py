@@ -25,7 +25,7 @@ def read_integer(prompt):
             if users_input >= 0:
                 return users_input
         except ValueError:
-            print("Sorry -numbor olny please")
+            print("Sorry, numbers only please")
 
 
 def runners_data():
