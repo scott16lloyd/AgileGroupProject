@@ -101,7 +101,7 @@ def users_venue(races_location, runners_id):
 
 
 def updating_races_file(races_location):
-    connection = open(f"races.txt", "w")
+    connection = open(f"Races.txt", "w")
     for i in range(len(races_location)):
         print(races_location[i], file=connection)
     connection.close()
