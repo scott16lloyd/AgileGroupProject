@@ -14,4 +14,4 @@ jobs:
         run: pip install pytest
 
       - name: Run tests
-        run: pytest /Agile Group Project/tests.py
+        run: pytest ../tests.py
