@@ -14,4 +14,10 @@ jobs:
         run: pip install pytest
 
       - name: Run tests
-        run: pytest tests/tests.py # Update the path to your tests file
+        run: pytest tests.py # Update the path to your tests file
+
+      - name: Debug
+        run: |
+          pwd
+          ls -R
+        shell: bash
