@@ -51,7 +51,7 @@ def race_results(races_location):
 
 
 def race_venues():
-    with open("races.txt") as input:
+    with open("Races.txt") as input:
         lines = input.readlines()
     races_location = []
     for line in lines:
