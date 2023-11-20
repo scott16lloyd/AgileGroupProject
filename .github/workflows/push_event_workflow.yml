@@ -14,4 +14,4 @@ jobs:
         run: pip install pytest
 
       - name: Run tests
-        run: pytest ../tests.py
+        run: pytest tests/tests.py # Update the path to your tests file
