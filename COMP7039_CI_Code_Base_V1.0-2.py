@@ -29,8 +29,8 @@ def read_integer(prompt):
 
 
 def runners_data():
-    with open("Runners.txt") as input_file:
-        lines = input_file.readlines()
+    with open("Runners.txt") as input:
+        lines = input.readlines()
     runners_name = []
     runners_id = []
     for line in lines:
@@ -97,7 +97,8 @@ def users_venue(races_location, runners_id):
     updated_runners = []
     for i in range(len(runners_id)):
         time_taken_for_runner = read_integer(f"Time for {runners_id[i]} >> ")
-        if time_taken_for_runner == 0:
+        if time_taken_for_runner == 0: #Fixed = to ==
+
             time_taken.append(time_taken_for_runner)
             updated_runners.append(runners_id[i])
             print(f"{runners_id[i]},{time_taken_for_runner},", file=connection)
