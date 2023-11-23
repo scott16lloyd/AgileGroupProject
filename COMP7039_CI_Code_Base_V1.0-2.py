@@ -140,7 +140,7 @@ def reading_race_results(location):
 
 
 def reading_race_results_of_relevant_runner(location, runner_id):
-    with open(f"{location}.txt") as input_type:
+    with open(f"{location[0]}.txt") as input_type:
         lines = input_type.readlines()
     id = []
     time_taken = []
@@ -169,7 +169,7 @@ def relevant_runner_info(runners_name, runners_id):
         print(f"{i + 1}: {runners_name[i]}")
     user_input = read_integer_between_numbers("Which Runner > ", 1, len(runners_name))
     runner = runners_name[user_input - 1]
-    id = runners_id[user_input - 1]
+    id = runners_id[user_input - 1].strip()
     return runner, id
 
 
@@ -181,7 +181,7 @@ def convert_time_to_minutes_and_seconds(time_taken):
 
 
 def sorting_where_runner_came_in_race(location, time):
-    with open(f"{location}.txt") as input_type:
+    with open(f"{location[0]}.txt") as input_type:
         lines = input_type.readlines()
     time_taken = []
     for line in lines:
