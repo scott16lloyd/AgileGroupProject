@@ -128,8 +128,7 @@ def competitors_by_county(name, id):
 
 
 def reading_race_results(location):
-    location_str = location.replace("[", "").replace("'", "")
-    with open(f"{location_str}.txt") as input_type:
+    with open(f"{location}.txt") as input_type:
         lines = input_type.readlines()
     id = []
     time_taken = []
@@ -256,6 +255,7 @@ def main():
             displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
         print()
         input_menu = read_integer_between_numbers(MENU, 1, 7)
+    updating_races_file(races_location)
 
 
 main()
