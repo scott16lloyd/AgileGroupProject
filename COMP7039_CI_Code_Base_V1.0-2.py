@@ -128,11 +128,6 @@ def competitors_by_county(name, id):
 
     print("\nTipperary runners")
     print("=" * 20)
-
-def reading_race_results(location):
-    with open(f"{location}.txt") as input_type:
-        lines = input_type.readlines()
-
     for i in range(len(name)):
         if id[i].startswith("TP"):
             print(f"{name[i]} ({id[i]})")
@@ -144,7 +139,6 @@ def reading_race_results(location):
         if id[i].startswith("WD"):
             print(f"{name[i]} ({id[i]})")
 
-
     print("\nLimerick runners")
     print("=" * 20)
 
@@ -152,9 +146,15 @@ def reading_race_results(location):
         if id[i].startswith("LK"):
             print(f"{name[i]} ({id[i]})")
 
+def reading_race_results(location):
+    with open(f"{location}.txt") as input_type:
+        lines = input_type.readlines()
+
+
+
 
 def reading_race_results(venue):
-    venue_name = venue.split(",")[0]  # Split the venue string and get the first part
+    venue_name = venue.split(",")[0]
     with open(f"{venue_name}.txt") as input_file:
         lines = input_file.readlines()
 
@@ -189,10 +189,9 @@ def displaying_winners_of_each_race(races_location):
     print("Venue             Winner")
     print("="*24)
     for i in range(len(races_location)):
-        location_str = races_location[i][0].replace("[", "").replace("'", "").strip()
-        id, time_taken = reading_race_results(location_str)
+        id, time_taken = reading_race_results(races_location[i])
         fastest_runner = winner_of_race(id, time_taken)
-        print(f"{location_str:<18s}{fastest_runner}")
+        print(f"{races_location[i]:<18s}{fastest_runner}")
 
 
 def relevant_runner_info(runners_name, runners_id):
