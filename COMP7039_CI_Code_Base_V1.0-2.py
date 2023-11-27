@@ -2,7 +2,7 @@ def read_integer_between_numbers(prompt, mini, maximum):
     while True:
         try:
             users_input = int(input(prompt))
-            if maximum <= users_input >= mini:
+            if maximum >= users_input >= mini:
                 return users_input
             else:
                 print(f"Numbers from {mini} to {maximum} only.")
@@ -45,22 +45,22 @@ def runners_data():
     return runners_name, runners_id
 
 
+
 def race_results(races_location):
     for i in range(len(races_location)):
-        print(f"{i}: {races_location[i]}")
+        print(f"{i + 1}: {races_location[i]}")
     user_input = read_integer_between_numbers("Choice > ", 1, len(races_location))
-    venue = races_location[user_input - 1]
+    venue = races_location[user_input - 1].split(',')[0]  # Make sure to select only one venue
     id, time_taken = reading_race_results(venue)
     return id, time_taken, venue
 
 
 def race_venues():
-    with open("Races.txt") as input:
-        lines = input.readlines()
-    races_location = []
-    for line in lines:
-        races_location.append(line.strip("\n"))
+    with open("Races.txt") as input_file:
+        lines = input_file.readlines()
+    races_location = [line.strip() for line in lines]
     return races_location
+
 
 
 def winner_of_race(id, time_taken):
@@ -87,28 +87,28 @@ def display_races(id, time_taken, venue, fastest_runner):
 
 
 def users_venue(races_location, runners_id):
-    while True:
-        user_location = read_nonempty_string("Where will the new race take place? ").capitalize()
-        if user_location not in races_location:
-            break
-    connection = open(f"{user_location}.txt", "a")
-    races_location.append(user_location)
-    time_taken = []
-    updated_runners = []
-    for i in range(len(runners_id)):
-        time_taken_for_runner = read_integer(f"Time for {runners_id[i]} >> ")
-        if time_taken_for_runner == 0:
-            time_taken.append(time_taken_for_runner)
-            updated_runners.append(runners_id[i])
-            print(f"{runners_id[i]},{time_taken_for_runner},", file=connection)
-    connection.close()
+    user_location = read_nonempty_string("Where will the new race take place? ").capitalize()
+    target_time = read_integer("Enter the target time for the race: ")
+
+    new_race = f"{user_location},{target_time}"
+    if new_race not in races_location:
+        races_location.append(new_race)
+        updating_races_file(races_location)  # Save the updated races list
+
+    with open(f"{user_location}.txt", "w") as connection:
+        for runner_id in runners_id:
+            time_taken_for_runner = read_integer(f"Time for {runner_id} >> ")
+            if time_taken_for_runner >= 0:
+                print(f"{runner_id},{time_taken_for_runner}", file=connection)
+
+
 
 
 def updating_races_file(races_location):
-    connection = open(f"Races.txt", "w")
-    for i in range(len(races_location)):
-        print(races_location[i], file=connection)
-    connection.close()
+    with open("Races.txt", "w") as file:
+        for race in races_location:
+            file.write(race + '\n')
+
 
 
 def competitors_by_county(name, id):
@@ -124,20 +124,22 @@ def competitors_by_county(name, id):
             print(f"{name[i]} ({id[i]})")
 
 
-def reading_race_results(location):
-    with open(f"{location}.txt") as input_type:
-        lines = input_type.readlines()
+def reading_race_results(venue):
+    venue_name = venue.split(",")[0]  # Split the venue string and get the first part
+    with open(f"{venue_name}.txt") as input_file:
+        lines = input_file.readlines()
     id = []
     time_taken = []
     for line in lines:
-        split_line = line.split(",".strip("\n"))
+        split_line = line.split(",")
         id.append(split_line[0])
-        time_taken.append(int(split_line[1].strip("\n")))
+        time_taken.append(int(split_line[1].strip()))
     return id, time_taken
 
 
+
 def reading_race_results_of_relevant_runner(location, runner_id):
-    with open(f"{location}.txt") as input_type:
+    with open(f"{location[0]}.txt") as input_type:
         lines = input_type.readlines()
     id = []
     time_taken = []
@@ -166,7 +168,7 @@ def relevant_runner_info(runners_name, runners_id):
         print(f"{i + 1}: {runners_name[i]}")
     user_input = read_integer_between_numbers("Which Runner > ", 1, len(runners_name))
     runner = runners_name[user_input - 1]
-    id = runners_id[user_input - 1]
+    id = runners_id[user_input - 1].strip()
     return runner, id
 
 
@@ -178,7 +180,7 @@ def convert_time_to_minutes_and_seconds(time_taken):
 
 
 def sorting_where_runner_came_in_race(location, time):
-    with open(f"{location}.txt") as input_type:
+    with open(f"{location[0]}.txt") as input_type:
         lines = input_type.readlines()
     time_taken = []
     for line in lines:
