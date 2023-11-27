@@ -126,6 +126,29 @@ def competitors_by_county(name, id):
         if id[i].startswith("KY"):
             print(f"{name[i]} ({id[i]})")
 
+    print("\nTipperary runners")
+    print("=" * 20)
+
+    for i in range(len(name)):
+        if id[i].startswith("TP"):
+            print(f"{name[i]} ({id[i]})")
+
+
+    print("\nWexford runners")
+    print("=" * 20)
+
+    for i in range(len(name)):
+        if id[i].startswith("WD"):
+            print(f"{name[i]} ({id[i]})")
+
+
+    print("\nLimerick runners")
+    print("=" * 20)
+
+    for i in range(len(name)):
+        if id[i].startswith("LK"):
+            print(f"{name[i]} ({id[i]})")
+
 
 def reading_race_results(venue):
     venue_name = venue.split(",")[0]  # Split the venue string and get the first part
