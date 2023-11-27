@@ -139,7 +139,8 @@ def reading_race_results(venue):
 
 
 def reading_race_results_of_relevant_runner(location, runner_id):
-    with open(f"{location[0]}.txt") as input_type:
+    location = location.split(",")[0]
+    with open(f"{location}.txt") as input_type:
         lines = input_type.readlines()
     id = []
     time_taken = []
@@ -180,7 +181,8 @@ def convert_time_to_minutes_and_seconds(time_taken):
 
 
 def sorting_where_runner_came_in_race(location, time):
-    with open(f"{location[0]}.txt") as input_type:
+    location = location.split(",")[0]
+    with open(f"{location}.txt") as input_type:
         lines = input_type.readlines()
     time_taken = []
     for line in lines:
