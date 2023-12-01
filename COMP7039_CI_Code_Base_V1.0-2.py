@@ -259,15 +259,33 @@ def displaying_runners_who_have_won_at_least_one_race(races_location, runners_na
         print(f"{runners[i]} ({fastest_runner})")
 
 
+def competitors_without_podium(races_location, runners_name, runners_id):
+    podium_runners = set()
+
+    for location in races_location:
+        id, _ = reading_race_results(location)
+        fastest_runner = winner_of_race(id, _)
+        if fastest_runner in runners_id:
+            podium_runners.add(fastest_runner)
+
+    non_podium_runners = [runner_id for runner_id in runners_id if runner_id not in podium_runners]
+
+    print("Competitors without a podium position:")
+    print("=" * 40)
+    for i, runner_id in enumerate(non_podium_runners):
+        print(f"{runners_name[runners_id.index(runner_id)]} ({runner_id})")
+
+
 def main():
     races_location = race_venues()
     runners_name, runners_id = runners_data()
     MENU = "1. Show the results for a race \n2. Add results for a race \n3. Show all competitors by county " \
            "\n4. Show the winner of each race \n5. Show all the race times for one competitor " \
-           "\n6. Show all competitors who have won a race \n7. Quit \n>>> "
-    input_menu = read_integer_between_numbers(MENU, 1, 7)
+           "\n6. Show all competitors who have won a race \n7. Show all competitors who have not taken a podium-position in any race" \
+            "\n8. Quit\n>>> "
+    input_menu = read_integer_between_numbers(MENU, 1, 8)
 
-    while input_menu != 7:
+    while input_menu != 8:
         if input_menu == 1:
             id, time_taken, venue = race_results(races_location)
             fastest_runner = winner_of_race(id, time_taken)
@@ -283,8 +301,10 @@ def main():
             displaying_race_times_one_competitor(races_location, runner, id)
         elif input_menu == 6:
             displaying_runners_who_have_won_at_least_one_race(races_location, runners_name, runners_id)
+        elif input_menu == 7:
+            competitors_without_podium(races_location, runners_name, runners_id)
         print()
-        input_menu = read_integer_between_numbers(MENU, 1, 7)
+        input_menu = read_integer_between_numbers(MENU, 1, 8)
     updating_races_file(races_location)
 
 
